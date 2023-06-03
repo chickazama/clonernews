@@ -22,7 +22,6 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/wwwroot/", http.StripPrefix("/wwwroot/", http.FileServer(http.Dir("wwwroot/"))))
 	mux.HandleFunc("/", defaultHandler)
-	// mux.HandleFunc("/topstories", topStoriesHandler)
 	// Listen and serve on defined port
 	err := http.ListenAndServe(addr, mux)
 	// If there is an error with opening server, log and exit with failure status code
@@ -32,7 +31,7 @@ func main() {
 }
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.URL.Path)
+	// fmt.Println(r.URL.Path)
 	view, exists := endpointViewMap[r.URL.Path]
 	if !exists {
 		w.WriteHeader(http.StatusNotFound)
