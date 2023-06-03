@@ -21,6 +21,17 @@ html {
 
 .nav-item {
     flex-grow: 1;
+    font-size: 24px;
     list-style-type: none;
     padding: 5px 10px 10px 5px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: black;
+    opacity: 0.5;
+}
+
+.nav-link:hover {
+    opacity: 1;
 }
