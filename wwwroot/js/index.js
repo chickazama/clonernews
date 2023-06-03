@@ -2,8 +2,10 @@ import { myTest } from "./test.js";
 import * as client from "./client.js";
 
 window.addEventListener("load", async () => {
-    await client.getMaxItemIdAsync();
-    console.log(client.maxItemId);
-    let data = await client.getItemAsync(client.maxItemId);
+    let maxId = await client.getMaxItemIdAsync();
+    console.log(maxId);
+    let data = await client.getNewStoriesIdAsync();
     console.log(data);
+    // let data = await client.getItemAsync(client.maxItemId);
+    // console.log(data);
 })
