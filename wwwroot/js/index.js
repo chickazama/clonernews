@@ -1,7 +1,9 @@
 import * as client from "./client.js";
 
+const msInterval = 5000;
+
 window.addEventListener("load", async () => {
-    setInterval(latestItemTestAsync, 5000);
+    setInterval(latestItemTestAsync, msInterval);
 })
 
 async function latestItemTestAsync() {
