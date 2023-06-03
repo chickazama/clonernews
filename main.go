@@ -21,7 +21,7 @@ func main() {
 	// Create ServeMux, serve static files (HTML, CSS, JS, etc.) & handle endpoints
 	mux := http.NewServeMux()
 	mux.Handle("/wwwroot/", http.StripPrefix("/wwwroot/", http.FileServer(http.Dir("wwwroot/"))))
-	mux.HandleFunc("/", indexHandler)
+	mux.HandleFunc("/", defaultHandler)
 	// mux.HandleFunc("/topstories", topStoriesHandler)
 	// Listen and serve on defined port
 	err := http.ListenAndServe(addr, mux)
@@ -31,7 +31,7 @@ func main() {
 	}
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
+func defaultHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.URL.Path)
 	view, exists := endpointViewMap[r.URL.Path]
 	if !exists {
