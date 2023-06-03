@@ -3,6 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link type="text/css" rel="stylesheet" href="./wwwroot/css/site.css" />
         <title>Cloner News - {{template "title" .}}</title>
     </head>
@@ -21,7 +22,7 @@
                 </div>
             </nav>
         </header>
-        <main>
+        <main class="container">
             {{template "content" .}}
         </main>
         {{template "scripts" .}}
