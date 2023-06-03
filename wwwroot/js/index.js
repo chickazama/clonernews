@@ -6,6 +6,8 @@ const scopeLength = 5;
 let currentMaxItemId;
 let currentNewStoriesIds;
 let scopedStoriesIds;
+let startScopedIdx = 0;
+let endScopedIdx = startScopedIdx + scopeLength;
 
 window.addEventListener("load", async () => {
     await initAsync();
@@ -19,7 +21,8 @@ window.addEventListener("load", async () => {
 async function initAsync() {
     currentMaxItemId = await client.getMaxItemIdAsync();
     currentNewStoriesIds = await client.getNewStoriesIdAsync();
-    scopedStoriesIds = currentNewStoriesIds.slice(0, scopeLength);
+    scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
+    console.log(scopedStoriesIds);
 }
 
 async function fixedUpdateAsync() {
@@ -29,10 +32,16 @@ async function fixedUpdateAsync() {
         return;
     }
     let newStoriesIds = await client.getNewStoriesIdAsync();
+    // If there is a new story, and we are on the first page,
+    // Populate babyyyy
     if (newStoriesIds[0] != currentNewStoriesIds[0]) {
-        
+        currentNewStoriesIds = newStoriesIds;
     }
     currentMaxItemId = maxItemId;
     console.log(`${currentMaxItemId}`);
+}
+
+function setScopedStoriesIds(startIdx, endIdx = startIdx + scopeLength) {
+    return currentNewStoriesIds.slice(startIdx, endIdx);
 }
 
