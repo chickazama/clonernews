@@ -3,6 +3,7 @@ const maxItemEndpoint = "/maxitem.json";
 const askStoriesEndpoint = "/askstories.json";
 const jobStoriesEndpoint = "/jobstories.json";
 const newStoriesEndpoint = "/newstories.json";
+const showStoriesEndpoint = "showstories.json";
 const topStoriesEndpoint = "/topstories.json";
 const itemPath = "item/";
 
@@ -30,6 +31,11 @@ export async function getJobStoriesIdAsync() {
 
 export async function getNewStoriesIdAsync() {
     const url = `${baseUrl}${newStoriesEndpoint}`;
+    return await getData(url);
+}
+
+export async function getShowStoriesIdAsync() {
+    const url = `${baseUrl}${showStoriesEndpoint}`;
     return await getData(url);
 }
 
