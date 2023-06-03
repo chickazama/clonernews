@@ -7,6 +7,10 @@ html {
     padding: 0;
 }
 
+header {
+    margin-bottom: 100px;
+}
+
 .navbar {
     position: fixed;
     top: 0;
