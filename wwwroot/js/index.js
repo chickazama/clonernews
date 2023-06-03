@@ -1,19 +1,27 @@
 import * as client from "./client.js";
 
 const msInterval = 5000;
+const scopeLength = 5;
 
-let currentMaxItemId = 0;
-let currentNewStoriesIds = [];
+let currentMaxItemId;
+let currentNewStoriesIds;
+let scopedStoriesIds;
 
 window.addEventListener("load", async () => {
     await initAsync();
     setInterval(fixedUpdateAsync, msInterval);
 })
 
+// Initialise data structures representing:
+//  - Current Max Item ID
+//  - Current Array of Newest Story IDs
+//  - Current Array of Scoped Story IDs
 async function initAsync() {
     currentMaxItemId = await client.getMaxItemIdAsync();
     currentNewStoriesIds = await client.getNewStoriesIdAsync();
+    scopedStoriesIds = currentNewStoriesIds.slice(0, scopeLength);
 }
+
 async function fixedUpdateAsync() {
     let maxItemId = await client.getMaxItemIdAsync();
     if (maxItemId == currentMaxItemId) {
