@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 )
@@ -33,8 +34,22 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	// HTTP Get returns the home page and Status 200 - OK
 	case http.MethodGet:
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Success"))
+		files := []string{
+			"./wwwroot/templates/layout.html",
+			"./wwwroot/pages/index.html",
+		}
+		tmpl, err := template.ParseFiles(files...)
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, "internal server error", http.StatusInternalServerError)
+			return
+		}
+		err = tmpl.ExecuteTemplate(w, "layout", nil)
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, "internal server error", http.StatusInternalServerError)
+			return
+		}
 		return
 	// Any other HTTP method returns Status 400 - Bad Request
 	default:
