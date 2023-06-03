@@ -1,4 +1,4 @@
-const baseUrl = "https://hacker-news.firebaseio.com/v0/";
+// API Endpoint & Path Constants
 const maxItemEndpoint = "/maxitem.json";
 const askStoriesEndpoint = "/askstories.json";
 const jobStoriesEndpoint = "/jobstories.json";
@@ -7,11 +7,17 @@ const showStoriesEndpoint = "showstories.json";
 const topStoriesEndpoint = "/topstories.json";
 const itemPath = "item/";
 
-export let maxItemId = 0;
+// API URL constants
+const baseUrl = "https://hacker-news.firebaseio.com/v0/";
+const maxItemUrl = `${baseUrl}${maxItemEndpoint}`;
+const askStoriesUrl = `${baseUrl}${askStoriesEndpoint}`;
+const jobStoriesUrl = `${baseUrl}${jobStoriesEndpoint}`;
+const newStoriesUrl = `${baseUrl}${newStoriesEndpoint}`;
+const showStoriesUrl = `${baseUrl}${showStoriesEndpoint}`;
+const topStoriesUrl = `${baseUrl}${topStoriesEndpoint}`;
 
 export async function getMaxItemIdAsync() {
-    const url = `${baseUrl}${maxItemEndpoint}`;
-    return await getData(url);
+    return await getData(maxItemUrl);
 }
 
 export async function getItemAsync(itemId) {
@@ -20,28 +26,23 @@ export async function getItemAsync(itemId) {
 }
 
 export async function getAskStoriesIdAsync() {
-    const url = `${baseUrl}${askStoriesEndpoint}`;
-    return await getData(url);
+    return await getData(askStoriesUrl);
 }
 
 export async function getJobStoriesIdAsync() {
-    const url = `${baseUrl}${jobStoriesEndpoint}`;
-    return await getData(url);
+    return await getData(jobStoriesUrl);
 }
 
 export async function getNewStoriesIdAsync() {
-    const url = `${baseUrl}${newStoriesEndpoint}`;
-    return await getData(url);
+    return await getData(newStoriesUrl);
 }
 
 export async function getShowStoriesIdAsync() {
-    const url = `${baseUrl}${showStoriesEndpoint}`;
-    return await getData(url);
+    return await getData(showStoriesUrl);
 }
 
 export async function getTopStoriesIdAsync() {
-    const url = `${baseUrl}${topStoriesEndpoint}`;
-    return await getData(url);
+    return await getData(topStoriesUrl);
 }
 
 async function getData(url) {
