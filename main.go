@@ -8,7 +8,9 @@ import (
 )
 
 const (
-	addr string = ":8080"
+	addr                  string = ":8080"
+	defaultLayoutTemplate string = "layout"
+	defaultLayoutPath     string = "./wwwroot/templates/layout.html"
 )
 
 func main() {
@@ -34,17 +36,20 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	// HTTP Get returns the home page and Status 200 - OK
 	case http.MethodGet:
+		// Parse HTML files to populate template
 		files := []string{
-			"./wwwroot/templates/layout.html",
+			defaultLayoutPath,
 			"./wwwroot/pages/index.html",
 		}
 		tmpl, err := template.ParseFiles(files...)
+		// If there is an error parsing HTML files, return Status 500 - Internal Server Error
 		if err != nil {
 			log.Println(err.Error())
 			http.Error(w, "internal server error", http.StatusInternalServerError)
 			return
 		}
-		err = tmpl.ExecuteTemplate(w, "layout", nil)
+		// If there is an error executing layout template, return Status 500 - Internal Server Error
+		err = tmpl.ExecuteTemplate(w, defaultLayoutTemplate, nil)
 		if err != nil {
 			log.Println(err.Error())
 			http.Error(w, "internal server error", http.StatusInternalServerError)
