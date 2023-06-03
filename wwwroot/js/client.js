@@ -1,5 +1,6 @@
 const baseUrl = "https://hacker-news.firebaseio.com/v0/";
 const maxItemEndpoint = "/maxitem.json";
+const jobStoriesEndpoint = "/jobstories.json";
 const newStoriesEndpoint = "/newstories.json";
 const topStoriesEndpoint = "/topstories.json";
 const itemPath = "item/";
@@ -13,6 +14,11 @@ export async function getMaxItemIdAsync() {
 
 export async function getItemAsync(itemId) {
     const url = `${baseUrl}${itemPath}${itemId}.json`;
+    return await getData(url);
+}
+
+export async function getJobStoriesIdAsync() {
+    const url = `${baseUrl}${jobStoriesEndpoint}`;
     return await getData(url);
 }
 
