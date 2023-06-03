@@ -16,36 +16,40 @@ const newStoriesUrl = `${baseUrl}${newStoriesEndpoint}`;
 const showStoriesUrl = `${baseUrl}${showStoriesEndpoint}`;
 const topStoriesUrl = `${baseUrl}${topStoriesEndpoint}`;
 
+// Exported functions for retrieving data from the API asynchronously.
+// Each of these makes use of the generalised private 'getDataAsync' function.
+
 export async function getMaxItemIdAsync() {
-    return await getData(maxItemUrl);
+    return await getDataAsync(maxItemUrl);
 }
 
 export async function getItemAsync(itemId) {
     const url = `${baseUrl}${itemPath}${itemId}.json`;
-    return await getData(url);
+    return await getDataAsync(url);
 }
 
 export async function getAskStoriesIdAsync() {
-    return await getData(askStoriesUrl);
+    return await getDataAsync(askStoriesUrl);
 }
 
 export async function getJobStoriesIdAsync() {
-    return await getData(jobStoriesUrl);
+    return await getDataAsync(jobStoriesUrl);
 }
 
 export async function getNewStoriesIdAsync() {
-    return await getData(newStoriesUrl);
+    return await getDataAsync(newStoriesUrl);
 }
 
 export async function getShowStoriesIdAsync() {
-    return await getData(showStoriesUrl);
+    return await getDataAsync(showStoriesUrl);
 }
 
 export async function getTopStoriesIdAsync() {
-    return await getData(topStoriesUrl);
+    return await getDataAsync(topStoriesUrl);
 }
 
-async function getData(url) {
+// Generalised function for getting data from a URL
+async function getDataAsync(url) {
     const res = await fetch(url);
     const data = await res.json();
     return data;
