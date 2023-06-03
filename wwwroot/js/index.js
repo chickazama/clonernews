@@ -2,13 +2,18 @@ import * as client from "./client.js";
 
 const msInterval = 5000;
 
+let currentMaxItemId = 0;
+
 window.addEventListener("load", async () => {
-    setInterval(latestItemTestAsync, msInterval);
+    setInterval(fixedUpdateAsync, msInterval);
 })
 
-async function latestItemTestAsync() {
-    let maxId = await client.getMaxItemIdAsync();
-    console.log(maxId);
-    let data = await client.getItemAsync(maxId);
-    console.log(data);
+async function fixedUpdateAsync() {
+    let maxItemId = await client.getMaxItemIdAsync();
+    if (maxItemId == currentMaxItemId) {
+        // console.log("Same ID");
+        return;
+    }
+    currentMaxItemId = maxItemId;
+    console.log(`${currentMaxItemId}`);
 }
