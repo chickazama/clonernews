@@ -22,23 +22,64 @@ async function initAsync() {
     currentMaxItemId = await client.getMaxItemIdAsync();
     currentNewStoriesIds = await client.getNewStoriesIdAsync();
     scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
-    console.log(scopedStoriesIds);
+    await populateAsync();
+    // console.log(scopedStoriesIds);
 }
 
+// This function is called periodically
+// in order to retrieve the latest item ID
+// as well as the newest stories
 async function fixedUpdateAsync() {
-    let maxItemId = await client.getMaxItemIdAsync();
-    if (maxItemId == currentMaxItemId) {
-        // console.log("Same ID");
-        return;
-    }
-    let newStoriesIds = await client.getNewStoriesIdAsync();
-    // If there is a new story, and we are on the first page,
-    // Populate babyyyy
+    let newStoriesIds = null;
+    do {
+        newStoriesIds = await client.getNewStoriesIdAsync();
+    } while (newStoriesIds === null);
     if (newStoriesIds[0] != currentNewStoriesIds[0]) {
         currentNewStoriesIds = newStoriesIds;
+        scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
+        await populateAsync();
+    }
+    let maxItemId = null;
+    do {
+        maxItemId = await client.getMaxItemIdAsync();
+    } while (maxItemId === null);
+    if (maxItemId == currentMaxItemId) {
+        return;
+    }
+    for (let id = maxItemId; id > currentMaxItemId; id--) {
+        let item = null;
+        do {
+            item = await client.getItemAsync(id);
+        } while (item === null);
+        console.log(item);
     }
     currentMaxItemId = maxItemId;
-    console.log(`${currentMaxItemId}`);
+    console.log(`New Max Item ID: ${currentMaxItemId}`);
+}
+
+// This function is responsible for populating the DOM with each post
+async function populateAsync() {
+    const posts = document.getElementById("posts");
+    posts.innerHTML = "";
+    for (const storyId of scopedStoriesIds) {
+        let data = null;
+        do {
+            data = await client.getItemAsync(storyId);
+        } while (data === null);
+        // console.log(data);
+        const div = document.createElement("div");
+        div.classList.add("post");
+        const heading = document.createElement("h1");
+        const headingText = document.createTextNode(`${data.title}`);
+        if (data.kids) {
+            for (const kid of data.kids) {
+                console.log(kid);
+            }
+        }
+        heading.appendChild(headingText);
+        div.appendChild(heading);
+        posts.appendChild(div);
+    } 
 }
 
 function setScopedStoriesIds(startIdx, endIdx = startIdx + scopeLength) {
