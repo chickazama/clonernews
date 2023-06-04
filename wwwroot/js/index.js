@@ -31,26 +31,30 @@ async function initAsync() {
 // as well as the newest stories
 async function fixedUpdateAsync() {
     let newStoriesIds = null;
-    do {
+    while (newStoriesIds === null) {
         newStoriesIds = await client.getNewStoriesIdAsync();
-    } while (newStoriesIds === null);
+    }
+
     if (newStoriesIds[0] != currentNewStoriesIds[0]) {
         currentNewStoriesIds = newStoriesIds;
         scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
         await populateAsync();
     }
+
     let maxItemId = null;
-    do {
+    while (maxItemId === null) {
         maxItemId = await client.getMaxItemIdAsync();
-    } while (maxItemId === null);
+    }
+
     if (maxItemId == currentMaxItemId) {
         return;
     }
+
     for (let id = maxItemId; id > currentMaxItemId; id--) {
         let item = null;
-        do {
+        while (item === null) {
             item = await client.getItemAsync(id);
-        } while (item === null);
+        }
         console.log(item);
     }
     currentMaxItemId = maxItemId;
@@ -63,9 +67,9 @@ async function populateAsync() {
     posts.innerHTML = "";
     for (const storyId of scopedStoriesIds) {
         let data = null;
-        do {
+        while (data === null) {
             data = await client.getItemAsync(storyId);
-        } while (data === null);
+        }
         // console.log(data);
         const div = document.createElement("div");
         div.classList.add("post");
