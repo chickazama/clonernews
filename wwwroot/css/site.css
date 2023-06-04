@@ -9,6 +9,9 @@ html {
 
 body {
     min-width: 300px;
+    background-color: #efefef;
+    margin: 0;
+    padding: 0;
 }
 
 header {
@@ -16,6 +19,7 @@ header {
 }
 
 .container {
+    margin: auto;
     padding: 5px;
 }
 
@@ -46,6 +50,14 @@ header {
 
 .nav-link:hover {
     opacity: 1;
+}
+
+.post {
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    width: 100%;
 }
 
 @media screen and (min-width: 768px) {
