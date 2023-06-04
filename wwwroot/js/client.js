@@ -50,7 +50,13 @@ export async function getTopStoriesIdAsync() {
 
 // Generalised function for getting data from a URL
 async function getDataAsync(url) {
-    const res = await fetch(url);
-    const data = await res.json();
-    return data;
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.log("Failed to retrieve data from API");
+        return null;
+    }
+    
 }
