@@ -7,6 +7,10 @@ html {
     padding: 0;
 }
 
+body {
+    min-width: 300px;
+}
+
 header {
     margin-bottom: 80px;
 }
