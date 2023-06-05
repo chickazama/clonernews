@@ -69,7 +69,7 @@ header {
     width: 95%;
 }
 
-h1 {
+h1, h3 {
     padding: 10px;
 }
 
