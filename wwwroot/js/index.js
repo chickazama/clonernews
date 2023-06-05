@@ -126,7 +126,7 @@ async function buildPostAsync(storyId) {
     return div;
 }
 
-async function buildCommentAsync(commentId, thread) {
+async function buildCommentAsync(commentId, thread = false) {
     let data = null;
     while (data === null) {
         data = await client.getItemAsync(commentId);
@@ -156,7 +156,7 @@ async function buildCommentAsync(commentId, thread) {
         return div;
     }
     for (const id of data.kids) {
-        let commentDiv = await buildCommentAsync(id, false);
+        let commentDiv = await buildCommentAsync(id);
         div.appendChild(commentDiv);
     }
     return div;
