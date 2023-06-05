@@ -2,15 +2,41 @@ import * as client from "./client.js";
 
 const msInterval = 5000;
 const scopeLength = 10;
-
+const minStartIdx = 0;
+const maxStartIdx = 490;
 let currentMaxItemId;
 let currentNewStoriesIds;
 let scopedStoriesIds;
 let startScopedIdx = 0;
 let endScopedIdx = startScopedIdx + scopeLength;
 
+
+
+
 window.addEventListener("load", async () => {
     await initAsync();
+    let previousBtns = document.getElementsByClassName("previous");
+    for (const btn of previousBtns) {
+        btn.addEventListener("click", async () => {
+            if (startScopedIdx <= minStartIdx) {
+                return;
+            }
+            startScopedIdx -= 10;
+            scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
+            await populateAsync();
+        })
+    }
+    let nextBtns = document.getElementsByClassName("next");
+    for (const btn of nextBtns) {
+        btn.addEventListener("click", async () => {
+            if (startScopedIdx >= maxStartIdx) {
+                return;
+            }
+            startScopedIdx += 10;
+            scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
+            await populateAsync();
+        })
+    }
     setInterval(fixedUpdateAsync, msInterval);
 })
 
@@ -79,8 +105,12 @@ async function buildPostAsync(storyId) {
     const div = document.createElement("div");
     div.classList.add("post");
     const url = document.createElement("a");
-    url.href = data.url;
-    url.target = "_blank";
+    if (data.url) {
+        url.href = data.url;
+        url.target = "_blank";
+    } else {
+        url.classList.add("disabled");
+    }
     const heading = document.createElement("h1");
     const headingText = document.createTextNode(`${data.title}`);
     heading.appendChild(headingText);
@@ -111,10 +141,15 @@ async function buildCommentAsync(commentId, thread) {
     const userText = document.createTextNode(`${data.by}`);
     user.appendChild(userText);
     const comment = document.createElement("p");
-    const cleanText = data.text.replace(/<\/?[^>]+(>|$)/g, "");
-    const renderedText = decodeHtml(cleanText);
-    const commentText = document.createTextNode(renderedText);
-    comment.appendChild(commentText);
+    if (data.text) {
+        const cleanText = data.text.replace(/<\/?[^>]+(>|$)/g, "");
+        const renderedText = decodeHtml(cleanText);
+        const commentText = document.createTextNode(renderedText);
+        comment.appendChild(commentText);
+    } else {
+        comment.innerText = "nothing";
+    }
+    
     div.appendChild(user);
     div.appendChild(comment);
     if (!data.kids) {
@@ -132,7 +167,7 @@ function setScopedStoriesIds(startIdx, endIdx = startIdx + scopeLength) {
 }
 
 function decodeHtml(html) {
-    var txt = document.createElement("textarea");
+    const txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
 }
