@@ -9,7 +9,6 @@ let currentMaxItemId;
 let currentTopStoriesIds;
 let scopedStoriesIds;
 let startScopedIdx = 0;
-let endScopedIdx = startScopedIdx + scopeLength;
 
 window.addEventListener("load", async () => {
     await initAsync();

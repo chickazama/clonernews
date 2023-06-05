@@ -1,18 +1,5 @@
 import * as client from "./client.js";
 
-// This function is responsible for populating the DOM with each post
-export async function populateAsync() {
-    const postsDiv = document.getElementById("posts");
-    postsDiv.innerHTML = "";
-        const promises = scopedStoriesIds.map( (storyId) => {
-            return buildPostAsync(storyId);
-        })
-        const posts = await Promise.all(promises);
-        for (const post of posts) {
-            postsDiv.appendChild(post);
-        }
-}
-
 export async function buildPostAsync(id) {
     let data = null;
     while (data === null) {
@@ -76,13 +63,16 @@ async function buildCommentAsync(commentId, thread = false) {
 
     div.appendChild(user);
     div.appendChild(comment);
-    // if (!data.kids) {
-    //     return div;
-    // }
-    // for (const childId of data.kids) {
-    //     let commentDiv = await buildCommentAsync(childId);
-    //     div.appendChild(commentDiv);
-    // }
+    if (!data.kids) {
+        return div;
+    }
+    const promises = data.kids.map( (childId) => {
+        return buildCommentAsync(childId);
+    })
+    const replies = await Promise.all(promises);
+    for (const reply of replies) {
+        div.appendChild(reply);
+    }
     return div;
 }
 
