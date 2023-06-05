@@ -1,12 +1,12 @@
 import * as client from "./client.js";
 
 const msInterval = 5000;
-const scopeLength = 5;
+const scopeLength = 10;
 
 let currentMaxItemId;
 let currentNewStoriesIds;
 let scopedStoriesIds;
-let startScopedIdx = 0;
+let startScopedIdx = 100;
 let endScopedIdx = startScopedIdx + scopeLength;
 
 window.addEventListener("load", async () => {
@@ -86,11 +86,43 @@ async function buildPostAsync(storyId) {
     heading.appendChild(headingText);
     url.appendChild(heading);
     div.appendChild(url);
+    if (!data.kids) {
+        return div;
+    }
+    for (const id of data.kids) {
+        let comment = await buildCommentAsync(id, true);
+        div.appendChild(comment);
+    }
     return div;
 }
 
-async function buildCommentsAsync(storyId) {
-
+async function buildCommentAsync(commentId, thread) {
+    let data = null;
+    while (data === null) {
+        data = await client.getItemAsync(commentId);
+    }
+    let div = document.createElement("div");
+    if (thread) {
+        div.classList.add("thread");
+    } else {
+        div.classList.add("comment");
+    }
+    const user = document.createElement("h3");
+    const userText = document.createTextNode(`${data.by}`);
+    user.appendChild(userText);
+    const comment = document.createElement("p");
+    const commentText = document.createTextNode(`${data.text}`);
+    comment.appendChild(commentText);
+    div.appendChild(user);
+    div.appendChild(comment);
+    if (!data.kids) {
+        return div;
+    }
+    for (const id of data.kids) {
+        let commentDiv = await buildCommentAsync(id, false);
+        div.appendChild(commentDiv);
+    }
+    return div;
 }
 
 function setScopedStoriesIds(startIdx, endIdx = startIdx + scopeLength) {
