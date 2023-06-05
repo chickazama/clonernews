@@ -69,8 +69,25 @@ header {
     width: 95%;
 }
 
+h1 {
+    padding: 10px;
+}
+
 p {
     word-wrap: break-word;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.disabled {
+    color: grey;
 }
 
 .thread {
