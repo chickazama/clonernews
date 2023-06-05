@@ -66,24 +66,31 @@ async function populateAsync() {
     const posts = document.getElementById("posts");
     posts.innerHTML = "";
     for (const storyId of scopedStoriesIds) {
-        let data = null;
-        while (data === null) {
-            data = await client.getItemAsync(storyId);
-        }
-        // console.log(data);
-        const div = document.createElement("div");
-        div.classList.add("post");
-        const heading = document.createElement("h1");
-        const headingText = document.createTextNode(`${data.title}`);
-        if (data.kids) {
-            for (const kid of data.kids) {
-                console.log(kid);
-            }
-        }
-        heading.appendChild(headingText);
-        div.appendChild(heading);
+        let div = await buildPostAsync(storyId);
         posts.appendChild(div);
     } 
+}
+
+async function buildPostAsync(storyId) {
+    let data = null;
+    while (data === null) {
+        data = await client.getItemAsync(storyId);
+    }
+    const div = document.createElement("div");
+    div.classList.add("post");
+    const url = document.createElement("a");
+    url.href = data.url;
+    url.target = "_blank";
+    const heading = document.createElement("h1");
+    const headingText = document.createTextNode(`${data.title}`);
+    heading.appendChild(headingText);
+    url.appendChild(heading);
+    div.appendChild(url);
+    return div;
+}
+
+async function buildCommentsAsync(storyId) {
+
 }
 
 function setScopedStoriesIds(startIdx, endIdx = startIdx + scopeLength) {
