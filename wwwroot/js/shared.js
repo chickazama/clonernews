@@ -26,12 +26,17 @@ export async function buildPostAsync(id) {
     }
     const heading = document.createElement("h1");
     const headingText = document.createTextNode(`${data.title}`);
+    
     heading.appendChild(headingText);
     url.appendChild(heading);
     div.appendChild(url);
     if (!data.kids) {
         return div;
     }
+    const commentHeading = document.createElement("h3");
+    const commentHeadingText = document.createTextNode(`Comments (${data.kids.length})`);
+    commentHeading.appendChild(commentHeadingText);
+    div.appendChild(commentHeading);
     for (const childId of data.kids) {
         let comment = await buildCommentAsync(childId, true);
         div.appendChild(comment);
@@ -65,13 +70,13 @@ async function buildCommentAsync(commentId, thread = false) {
     
     div.appendChild(user);
     div.appendChild(comment);
-    if (!data.kids) {
-        return div;
-    }
-    for (const childId of data.kids) {
-        let commentDiv = await buildCommentAsync(childId);
-        div.appendChild(commentDiv);
-    }
+    // if (!data.kids) {
+    //     return div;
+    // }
+    // for (const childId of data.kids) {
+    //     let commentDiv = await buildCommentAsync(childId);
+    //     div.appendChild(commentDiv);
+    // }
     return div;
 }
 
