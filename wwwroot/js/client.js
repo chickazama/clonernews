@@ -55,6 +55,7 @@ async function getDataAsync(url) {
         const data = await res.json();
         return data;
     } catch (err) {
+        console.error(err);
         console.log("Failed to retrieve data from API");
         return null;
     }
