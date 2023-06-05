@@ -15,8 +15,7 @@ export async function buildPostAsync(id) {
         url.classList.add("disabled");
     }
     const heading = document.createElement("h1");
-    const headingText = document.createTextNode(`${data.title}`);
-
+    const headingText = document.createTextNode(data.title);
     heading.appendChild(headingText);
     url.appendChild(heading);
     div.appendChild(url);
