@@ -1,13 +1,16 @@
 import * as client from "./client.js";
 
 // This function is responsible for populating the DOM with each post
-async function populateAsync() {
-    const posts = document.getElementById("posts");
-    posts.innerHTML = "";
-    for (const storyId of scopedStoriesIds) {
-        let div = await buildPostAsync(storyId);
-        posts.appendChild(div);
-    } 
+export async function populateAsync() {
+    const postsDiv = document.getElementById("posts");
+    postsDiv.innerHTML = "";
+        const promises = scopedStoriesIds.map( (storyId) => {
+            return buildPostAsync(storyId);
+        })
+        const posts = await Promise.all(promises);
+        for (const post of posts) {
+            postsDiv.appendChild(post);
+        }
 }
 
 export async function buildPostAsync(id) {
@@ -26,7 +29,7 @@ export async function buildPostAsync(id) {
     }
     const heading = document.createElement("h1");
     const headingText = document.createTextNode(`${data.title}`);
-    
+
     heading.appendChild(headingText);
     url.appendChild(heading);
     div.appendChild(url);
@@ -37,8 +40,11 @@ export async function buildPostAsync(id) {
     const commentHeadingText = document.createTextNode(`Comments (${data.kids.length})`);
     commentHeading.appendChild(commentHeadingText);
     div.appendChild(commentHeading);
-    for (const childId of data.kids) {
-        let comment = await buildCommentAsync(childId, true);
+    const promises = data.kids.map( (childId) => {
+        return buildCommentAsync(childId, true);
+    })
+    const comments = await Promise.all(promises);
+    for (const comment of comments) {
         div.appendChild(comment);
     }
     return div;
@@ -67,7 +73,7 @@ async function buildCommentAsync(commentId, thread = false) {
     } else {
         comment.innerText = "nothing";
     }
-    
+
     div.appendChild(user);
     div.appendChild(comment);
     // if (!data.kids) {

@@ -2,9 +2,9 @@ import * as client from "./client.js";
 import * as shared from "./shared.js";
 
 const msInterval = 5000;
-const scopeLength = 10;
+const scopeLength = 5;
 const minStartIdx = 0;
-const maxStartIdx = 490;
+const maxStartIdx = 495;
 let currentMaxItemId;
 let currentTopStoriesIds;
 let scopedStoriesIds;
@@ -13,13 +13,14 @@ let endScopedIdx = startScopedIdx + scopeLength;
 
 window.addEventListener("load", async () => {
     await initAsync();
+    await populateAsync();
     let previousBtns = document.getElementsByClassName("previous");
     for (const btn of previousBtns) {
         btn.addEventListener("click", async () => {
             if (startScopedIdx <= minStartIdx) {
                 return;
             }
-            startScopedIdx -= 10;
+            startScopedIdx -= scopeLength;
             scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
             await populateAsync();
         })
@@ -30,7 +31,7 @@ window.addEventListener("load", async () => {
             if (startScopedIdx >= maxStartIdx) {
                 return;
             }
-            startScopedIdx += 10;
+            startScopedIdx += scopeLength;
             scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
             await populateAsync();
         })
@@ -46,8 +47,6 @@ async function initAsync() {
     currentMaxItemId = await client.getMaxItemIdAsync();
     currentTopStoriesIds = await client.getTopStoriesIdAsync();
     scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
-    await populateAsync();
-    // console.log(scopedStoriesIds);
 }
 
 // This function is called periodically
@@ -90,17 +89,20 @@ async function fixedUpdateAsync() {
         console.log(item);
     }
     currentMaxItemId = maxItemId;
-    console.log(`New Max Item ID: ${currentMaxItemId}`);
+    // console.log(`New Max Item ID: ${currentMaxItemId}`);
 }
 
 // This function is responsible for populating the DOM with each post
 async function populateAsync() {
-    const posts = document.getElementById("posts");
-    posts.innerHTML = "";
-    for (const storyId of scopedStoriesIds) {
-        let div = await shared.buildPostAsync(storyId);
-        posts.appendChild(div);
-    } 
+    const postsDiv = document.getElementById("posts");
+    postsDiv.innerHTML = "";
+        const promises = scopedStoriesIds.map( (storyId) => {
+            return shared.buildPostAsync(storyId);
+        })
+        const posts = await Promise.all(promises);
+        for (const post of posts) {
+            postsDiv.appendChild(post);
+        }
 }
 
 function setScopedStoriesIds(startIdx, endIdx = startIdx + scopeLength) {
