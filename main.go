@@ -74,5 +74,6 @@ func initEndpointViewMap() {
 	endpointViewMap["/"] = pagesPath + "index.html"
 	endpointViewMap["/topstories"] = pagesPath + "topstories.html"
 	endpointViewMap["/jobs"] = pagesPath + "jobs.html"
+	endpointViewMap["/polls"] = pagesPath + "polls.html"
 	endpointViewMap["/notfound"] = pagesPath + "notfound.html"
 }
