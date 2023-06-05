@@ -74,9 +74,27 @@ async function buildCommentAsync(commentId, thread = false) {
 
     div.appendChild(user);
     div.appendChild(comment);
-    // if (!data.kids) {
-    //     return div;
-    // }
+    
+    if (!data.kids) {
+        return div;
+    }
+
+    const repliesDropSpan = document.createElement("span");
+    repliesDropSpan.classList.add("dropdown");
+    const repliesHeading = document.createElement("h5");
+    const repliesText = document.createTextNode(`Replies (${data.kids.length})`);
+    repliesHeading.appendChild(repliesText);
+    repliesDropSpan.appendChild(repliesHeading);
+    div.appendChild(repliesDropSpan);
+    repliesDropSpan.addEventListener("click", async () => {
+        const promises = data.kids.map( (childId) => {
+            return buildCommentAsync(childId, true);
+        } )
+        const replies = await Promise.all(promises);
+        for (const reply of replies) {
+            div.appendChild(reply);
+        }
+    });
     // const promises = data.kids.map( (childId) => {
     //     return buildCommentAsync(childId);
     // })
