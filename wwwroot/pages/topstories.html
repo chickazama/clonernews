@@ -4,8 +4,15 @@ Top Stories
 
 {{define "content"}}
 <h1>Top Stories</h1>
+<button class="previous">Previous Page</button>
+<button class="next">Next Page</button>
+<div id="posts">
+    <!-- Populated by Javascript -->
+</div>
+<button class="previous">Previous Page</button>
+<button class="next">Next Page</button>
 {{end}}
 
 {{define "scripts"}}
-<script type="module" src="./wwwroot/js/index.js"></script>
+<script type="module" src="./wwwroot/js/topstories.js"></script>
 {{end}}
