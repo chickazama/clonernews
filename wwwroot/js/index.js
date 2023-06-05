@@ -6,7 +6,7 @@ const scopeLength = 10;
 let currentMaxItemId;
 let currentNewStoriesIds;
 let scopedStoriesIds;
-let startScopedIdx = 100;
+let startScopedIdx = 0;
 let endScopedIdx = startScopedIdx + scopeLength;
 
 window.addEventListener("load", async () => {
@@ -111,7 +111,9 @@ async function buildCommentAsync(commentId, thread) {
     const userText = document.createTextNode(`${data.by}`);
     user.appendChild(userText);
     const comment = document.createElement("p");
-    const commentText = document.createTextNode(`${data.text}`);
+    const cleanText = data.text.replace(/<\/?[^>]+(>|$)/g, "");
+    const renderedText = decodeHtml(cleanText);
+    const commentText = document.createTextNode(renderedText);
     comment.appendChild(commentText);
     div.appendChild(user);
     div.appendChild(comment);
@@ -129,3 +131,8 @@ function setScopedStoriesIds(startIdx, endIdx = startIdx + scopeLength) {
     return currentNewStoriesIds.slice(startIdx, endIdx);
 }
 
+function decodeHtml(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
