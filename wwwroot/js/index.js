@@ -2,9 +2,9 @@ import * as client from "./client.js";
 import * as shared from "./shared.js";
 
 const msInterval = 5000;
-const scopeLength = 5;
+const scopeLength = 10;
 const minStartIdx = 0;
-const maxStartIdx = 495;
+const maxStartIdx = 500 - scopeLength;
 // const pageSize = 5;
 let currentMaxItemId;
 let currentNewStoriesIds;
