@@ -11,9 +11,6 @@ let scopedStoriesIds;
 let startScopedIdx = 0;
 let endScopedIdx = startScopedIdx + scopeLength;
 
-
-
-
 window.addEventListener("load", async () => {
     await initAsync();
     let previousBtns = document.getElementsByClassName("previous");
