@@ -60,6 +60,28 @@ header {
     width: 100%;
 }
 
+.comment {
+    background-color: white;
+    border-radius: 5px;
+    margin: auto;
+    margin-bottom: 5px;
+    padding: 5px;
+    width: 95%;
+}
+
+p {
+    word-wrap: break-word;
+}
+
+.thread {
+    background-color: #efefef;
+    border-radius: 5px;
+    margin: auto;
+    margin-bottom: 5px;
+    padding: 5px;
+    width: 95%;
+}
+
 @media screen and (min-width: 768px) {
     .container {
         width: 75%;
