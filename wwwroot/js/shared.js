@@ -22,17 +22,29 @@ export async function buildPostAsync(id) {
     if (!data.kids) {
         return div;
     }
+    const commentDropSpan = document.createElement("span");
+    commentDropSpan.classList.add("dropdown");
     const commentHeading = document.createElement("h3");
     const commentHeadingText = document.createTextNode(`Comments (${data.kids.length})`);
     commentHeading.appendChild(commentHeadingText);
-    div.appendChild(commentHeading);
-    const promises = data.kids.map( (childId) => {
-        return buildCommentAsync(childId, true);
-    })
-    const comments = await Promise.all(promises);
-    for (const comment of comments) {
-        div.appendChild(comment);
-    }
+    commentDropSpan.appendChild(commentHeading);
+    div.appendChild(commentDropSpan);
+    commentDropSpan.addEventListener("click", async () => {
+        const promises = data.kids.map( (childId) => {
+            return buildCommentAsync(childId, true);
+        } )
+        const comments = await Promise.all(promises);
+        for (const comment of comments) {
+            div.appendChild(comment);
+        }
+    });
+    // const promises = data.kids.map( (childId) => {
+    //     return buildCommentAsync(childId, true);
+    // })
+    // const comments = await Promise.all(promises);
+    // for (const comment of comments) {
+    //     div.appendChild(comment);
+    // }
     return div;
 }
 
@@ -62,16 +74,16 @@ async function buildCommentAsync(commentId, thread = false) {
 
     div.appendChild(user);
     div.appendChild(comment);
-    if (!data.kids) {
-        return div;
-    }
-    const promises = data.kids.map( (childId) => {
-        return buildCommentAsync(childId);
-    })
-    const replies = await Promise.all(promises);
-    for (const reply of replies) {
-        div.appendChild(reply);
-    }
+    // if (!data.kids) {
+    //     return div;
+    // }
+    // const promises = data.kids.map( (childId) => {
+    //     return buildCommentAsync(childId);
+    // })
+    // const replies = await Promise.all(promises);
+    // for (const reply of replies) {
+    //     div.appendChild(reply);
+    // }
     return div;
 }
 
