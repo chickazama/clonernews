@@ -12,6 +12,9 @@ let scopedStoriesIds;
 let startScopedIdx = 0;
 let endScopedIdx = startScopedIdx + scopeLength;
 
+// Upon page load, add event listenrs to the next and
+// previous buttons, for pagination. Initialise data structures
+// and populate the page
 window.addEventListener("load", async () => {
     await initAsync();
     await populateAsync();
@@ -37,6 +40,7 @@ window.addEventListener("load", async () => {
             await populateAsync();
         })
     }
+    // Update every 5 seconds
     setInterval(fixedUpdateAsync, msInterval);
 })
 
@@ -87,10 +91,8 @@ async function fixedUpdateAsync() {
                 }
             }
         }
-        // console.log(item);
     }
     currentMaxItemId = maxItemId;
-    // console.log(`New Max Item ID: ${currentMaxItemId}`);
 }
 
 // This function is responsible for populating the DOM with each post
