@@ -104,6 +104,7 @@ async function populateAsync() {
         }
 }
 
+// Slices out only the ID numbers of the stories which should be currently displayed
 function setScopedStoriesIds(startIdx, endIdx = startIdx + scopeLength) {
     return currentTopStoriesIds.slice(startIdx, endIdx);
 }
