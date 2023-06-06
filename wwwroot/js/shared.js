@@ -19,13 +19,13 @@ export async function buildPostAsync(id) {
     heading.appendChild(headingText);
     url.appendChild(heading);
     div.appendChild(url);
-    if (!data.kids) {
-        return div;
-    }
     const postTime = document.createElement("h5");
     const postTimeText = document.createTextNode(buildTimeString(data.time));
     postTime.appendChild(postTimeText);
     div.appendChild(postTime);
+    if (!data.kids) {
+        return div;
+    }
     const commentDropSpan = document.createElement("span");
     commentDropSpan.classList.add("dropdown");
     const commentHeading = document.createElement("h3");
