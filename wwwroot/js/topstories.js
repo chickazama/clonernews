@@ -52,26 +52,30 @@ async function initAsync() {
 // in order to retrieve the latest item ID
 // as well as the newest stories
 async function fixedUpdateAsync() {
+    // Guard against null data with retry
     let topStoriesIds = null;
     while (topStoriesIds === null) {
         topStoriesIds = await client.getTopStoriesIdAsync();
     }
-
+    // If there are new top stories, update our array, adjust
+    // the ID numbers to be displayed, and re-populate the page
     if (topStoriesIds[0] != currentTopStoriesIds[0]) {
         currentTopStoriesIds = topStoriesIds;
         scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
         await populateAsync();
     }
-
+    // Get the ID number of the newest item
     let maxItemId = null;
     while (maxItemId === null) {
         maxItemId = await client.getMaxItemIdAsync();
     }
-
+    // If there are no new items - we are done
     if (maxItemId == currentMaxItemId) {
         return;
     }
-
+    // Walk through each of the new items - if it is a comment
+    // on one of the posts currently on display, add it and render
+    // the stories again
     for (let id = maxItemId; id > currentMaxItemId; id--) {
         let item = null;
         while (item === null) {
@@ -85,19 +89,21 @@ async function fixedUpdateAsync() {
                 }
             }
         }
-        // console.log(item);
     }
     currentMaxItemId = maxItemId;
-    // console.log(`New Max Item ID: ${currentMaxItemId}`);
 }
 
 // This function is responsible for populating the DOM with each post
 async function populateAsync() {
     const postsDiv = document.getElementById("posts");
     postsDiv.innerHTML = "";
+    // Concurrently build each post asynchronously to smash the loading times.
+    // Way faster than using a for loop
     const promises = scopedStoriesIds.map( (storyId) => {
         return shared.buildPostAsync(storyId);
     })
+    // Once all the promises have returned a post item,
+    // append each of them to the display
     const posts = await Promise.all(promises);
     for (const post of posts) {
         postsDiv.appendChild(post);
