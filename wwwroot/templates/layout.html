@@ -28,9 +28,21 @@
                 </div>
             </nav>
         </header>
+        <nav class="container">
+            <div class="btn-group">
+                <button class="btn previous">Previous Page</button>
+                <button class="btn next">Next Page</button>
+            </div>
+        </nav>
         <main class="container">
             {{template "content" .}}
         </main>
+        <nav class="container">
+            <div class="btn-group">
+                <button class="btn previous">Previous Page</button>
+                <button class="btn next">Next Page</button>
+            </div>
+        </nav>
         {{template "scripts" .}}
     </body>
 </html>
