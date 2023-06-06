@@ -95,13 +95,13 @@ async function fixedUpdateAsync() {
 async function populateAsync() {
     const postsDiv = document.getElementById("posts");
     postsDiv.innerHTML = "";
-        const promises = scopedStoriesIds.map( (storyId) => {
-            return shared.buildPostAsync(storyId);
-        })
-        const posts = await Promise.all(promises);
-        for (const post of posts) {
-            postsDiv.appendChild(post);
-        }
+    const promises = scopedStoriesIds.map( (storyId) => {
+        return shared.buildPostAsync(storyId);
+    })
+    const posts = await Promise.all(promises);
+    for (const post of posts) {
+        postsDiv.appendChild(post);
+    }
 }
 
 // Slices out only the ID numbers of the stories which should be currently displayed
