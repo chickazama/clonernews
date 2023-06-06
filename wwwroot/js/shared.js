@@ -1,12 +1,18 @@
 import * as client from "./client.js";
 
+// This function takes a parameter corresponding
+// to the ID number of an individual item and constructs the post
+// to be displayed on the page
 export async function buildPostAsync(id) {
+    // Guard against null data with retry
     let data = null;
     while (data === null) {
         data = await client.getItemAsync(id);
     }
+    // Create a post div to store the content
     const div = document.createElement("div");
     div.classList.add("post");
+    // Create a link which opens in a new tab (if it exists)
     const url = document.createElement("a");
     if (data.url) {
         url.href = data.url;
@@ -14,18 +20,23 @@ export async function buildPostAsync(id) {
     } else {
         url.classList.add("disabled");
     }
+    // Create heading element with the title of the post as its text
     const heading = document.createElement("h1");
     const headingText = document.createTextNode(data.title);
     heading.appendChild(headingText);
+    // Make the link inner text the title, and add to post div
     url.appendChild(heading);
     div.appendChild(url);
+    // Add the post creation time
     const postTime = document.createElement("h5");
     const postTimeText = document.createTextNode(buildTimeString(data.time));
     postTime.appendChild(postTimeText);
     div.appendChild(postTime);
+    // If there are no comments, we are done
     if (!data.kids) {
         return div;
     }
+    // Create a span element which acts as a comment dropdown
     const commentDropSpan = document.createElement("span");
     commentDropSpan.classList.add("dropdown");
     const commentHeading = document.createElement("h3");
@@ -34,6 +45,7 @@ export async function buildPostAsync(id) {
     commentDropSpan.appendChild(commentHeading);
     div.appendChild(commentDropSpan);
     let comments;
+    // Add event listener to the comment dropdown element, to hide/show post comments
     commentDropSpan.addEventListener("click", async () => {
         if (!commentDropSpan.classList.contains("opened")) {
             commentDropSpan.classList.add("opened");
