@@ -1,5 +1,5 @@
 * {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Courier New', Courier, monospace;
 }
 
 html {
@@ -9,7 +9,7 @@ html {
 
 body {
     min-width: 300px;
-    background-color: #efefef;
+    background-color: lightgreen;
     margin: 0;
     padding: 0;
 }
@@ -28,7 +28,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #00b2ca;
+    background-color: mintcream;
 }
 
 .navbar-nav {
@@ -39,37 +39,44 @@ header {
     flex-grow: 1;
     font-size: 16px;
     list-style-type: none;
-    padding: 5px 20px 5px 5px;
+}
+
+a {
+    color: darkgreen;
+    text-decoration: none;
 }
 
 .nav-link {
+    padding: 5px 20px 5px 20px;
     text-decoration: none;
-    color: black;
-    opacity: 0.7;
+    color: darkgreen;
 }
 
 .nav-link:hover {
-    opacity: 1;
+    color: mintcream;
+    background-color: darkolivegreen;
 }
 
 .post {
-    background-color: white;
+    background-color: mintcream;
     border-radius: 5px;
     margin-bottom: 5px;
-    padding: 5px;
+    padding: 15px;
     width: 100%;
 }
 
 .comment {
-    /* background-color: white; */
-    /* border-radius: 5px; */
+    border-left: 1px dashed;
     margin: auto;
     margin-bottom: 5px;
     padding: 5px;
     width: 95%;
 }
 
-h1, h3, h5 {
+
+
+h3, h5 {
+    color: darkgreen;
     padding: 10px;
 }
 
@@ -78,21 +85,16 @@ p {
     word-wrap: break-word;
 }
 
-a {
-    text-decoration: none;
-}
-
-button {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 .disabled {
     color: grey;
 }
 
+/* span {
+    color: darkolivegreen;
+} */
+
 .thread {
-    background-color: #efefef;
+    /* background-color: #efefef; */
     border-radius: 5px;
     margin: auto;
     margin-bottom: 5px;
@@ -102,6 +104,31 @@ button {
 
 .dropdown:hover {
     cursor: pointer;
+}
+
+.btn-group {
+    display: inline-flex;
+    width: 100%;
+    padding: 5px;
+    align-items: center;
+}
+
+.btn {
+    margin-top: 10px;
+    margin-bottom:15px;
+    padding: 5px;
+    flex-grow: 1;
+    text-align: center;
+    font-size: large;
+    color: darkgreen;
+    border: none;
+    background-color: mintcream;
+}
+
+button:hover {
+    cursor: pointer;
+    color: mintcream;
+    background-color: darkolivegreen;
 }
 
 @media screen and (min-width: 768px) {
