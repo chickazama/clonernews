@@ -173,6 +173,6 @@ function buildTimeString(unixTime) {
     // if (sec < 10) {
     //     secStr = `0${sec}`;
     // }
-    const timeStr = `${cTime.getUTCHours()}:${minStr}`;
+    const timeStr = `${cTime.getUTCHours()}:${minStr} UTC`;
     return `${dateStr} at ${timeStr}`;
 }
