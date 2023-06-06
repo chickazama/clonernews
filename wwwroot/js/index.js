@@ -57,6 +57,8 @@ async function initAsync() {
 // This function is called periodically
 // in order to retrieve the latest item ID
 // as well as the newest stories
+// NB. See topstories.js for more comments on this function, since they
+// are very similar. TODO - combine these and place in shared.js!
 async function fixedUpdateAsync() {
     let newStoriesIds = null;
     while (newStoriesIds === null) {
