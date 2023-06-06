@@ -87,10 +87,10 @@ async function fixedUpdateAsync() {
                 }
             }
         }
-        console.log(item);
+        // console.log(item);
     }
     currentMaxItemId = maxItemId;
-    console.log(`New Max Item ID: ${currentMaxItemId}`);
+    // console.log(`New Max Item ID: ${currentMaxItemId}`);
 }
 
 // This function is responsible for populating the DOM with each post

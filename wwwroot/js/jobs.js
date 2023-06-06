@@ -63,9 +63,6 @@ async function fixedUpdateAsync() {
         scopedStoriesIds = setScopedStoriesIds(startScopedIdx);
         await populateAsync();
     }
-
-    currentMaxItemId = maxItemId;
-    // console.log(`New Max Item ID: ${currentMaxItemId}`);
 }
 
 // This function is responsible for populating the DOM with each post

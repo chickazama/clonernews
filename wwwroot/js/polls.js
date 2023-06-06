@@ -1,7 +1,7 @@
 import * as client from "./client.js";
 
 async function pollExampleAsync() {
-    let postsDiv = document.getElementById("posts");
+    let postsDiv = document.getElementById("post");
     let x = document.createElement("div");
     // x.classList.add("post-item");
     const itemId = 126809;

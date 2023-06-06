@@ -85,7 +85,7 @@ async function fixedUpdateAsync() {
                 }
             }
         }
-        console.log(item);
+        // console.log(item);
     }
     currentMaxItemId = maxItemId;
     // console.log(`New Max Item ID: ${currentMaxItemId}`);
